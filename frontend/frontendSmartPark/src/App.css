@@ -1,0 +1,85 @@
+
+#root {
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app > main,
+.app > .page-transition {
+  flex: 1;
+  width: 100%;
+}
+
+.page-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+
+/* Shared button foundation */
+.primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2878ff, #1458e8);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(23, 105, 255, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(23, 105, 255, 0.28);
+}
+
+/* Shared card foundation */
+.surface-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.surface-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Responsive page spacing */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 32px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 24px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

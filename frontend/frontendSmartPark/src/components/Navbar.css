@@ -1,0 +1,485 @@
+
+.sp-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: rgba(7, 22, 34, 0.96);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.sp-navbar-inner {
+  width: min(1440px, 92%);
+  min-height: 84px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+}
+
+.sp-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.sp-brand-mark {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 1px solid rgba(71, 218, 202, 0.38);
+  border-radius: 13px;
+  background: linear-gradient(145deg, #173f50, #0b2939);
+  box-shadow: 0 5px 20px rgba(0, 193, 177, 0.12);
+}
+
+.sp-brand-mark-line {
+  width: 5px;
+  border-radius: 5px;
+  background: #48d5c5;
+}
+
+.sp-brand-mark-line:nth-child(1) {
+  height: 13px;
+  opacity: 0.65;
+}
+
+.sp-brand-mark-line:nth-child(2) {
+  height: 23px;
+}
+
+.sp-brand-mark-line:nth-child(3) {
+  height: 17px;
+  opacity: 0.8;
+}
+
+.sp-brand-name {
+  display: flex;
+  flex-direction: column;
+  color: #f7fbff;
+  font-family: "Manrope", sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: -1.1px;
+  line-height: 1.05;
+}
+
+.sp-brand-name > span {
+  display: inline;
+  color: #48d5c5;
+}
+
+.sp-brand-name small {
+  margin-top: 5px;
+  color: #91a8b6;
+  font-family: "DM Sans", sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.65px;
+}
+
+.sp-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex: 1;
+}
+
+.sp-nav-link {
+  position: relative;
+  padding: 12px 16px;
+  border-radius: 9px;
+  color: #b5c4ce;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: 0.25s ease;
+}
+
+.sp-nav-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sp-nav-link.sp-nav-active {
+  color: #58dfd0;
+  background: rgba(63, 207, 192, 0.10);
+}
+
+.sp-navbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 17px;
+  flex-shrink: 0;
+}
+
+.sp-login-link {
+  color: #d4e0e7;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sp-login-link:hover {
+  color: #55d9ca;
+}
+
+.sp-register-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 17px;
+  border: 1px solid #48d5c5;
+  border-radius: 9px;
+  background: #48d5c5;
+  color: #082331;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 7px 20px rgba(72, 213, 197, 0.16);
+  transition: 0.25s ease;
+}
+
+.sp-register-button:hover {
+  transform: translateY(-2px);
+  background: #72e9dc;
+  box-shadow: 0 10px 25px rgba(72, 213, 197, 0.24);
+}
+
+.sp-notification-wrap {
+  position: relative;
+}
+
+.sp-notification-button {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.055);
+  color: #dce8ed;
+  cursor: pointer;
+}
+
+.sp-notification-button:hover,
+.sp-notification-selected {
+  border-color: rgba(72, 213, 197, 0.5);
+  background: rgba(72, 213, 197, 0.12);
+  color: #58dfd0;
+}
+
+.sp-notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  padding: 0 4px;
+  border: 2px solid #091c2a;
+  border-radius: 20px;
+  background: #ef6b75;
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.sp-dropdown-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+}
+
+.sp-notification-dropdown {
+  position: absolute;
+  top: 55px;
+  right: -10px;
+  z-index: 1002;
+  width: 365px;
+  max-height: 490px;
+  overflow: hidden;
+  border: 1px solid #e5edf0;
+  border-radius: 17px;
+  background: #fff;
+  color: #172d40;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.24);
+}
+
+.sp-notification-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 21px 20px 15px;
+}
+
+.sp-dropdown-eyebrow {
+  color: #1c9f98;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.sp-notification-heading h3 {
+  margin: 5px 0 3px;
+  color: #142c40;
+  font-size: 19px;
+}
+
+.sp-notification-heading p {
+  margin: 0;
+  color: #81909c;
+  font-size: 11px;
+}
+
+.sp-dropdown-close {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: #f1f5f6;
+  color: #647783;
+  cursor: pointer;
+}
+
+.sp-mark-all {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 20px 12px auto;
+  border: 0;
+  background: transparent;
+  color: #168e87;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sp-notification-list {
+  max-height: 340px;
+  overflow-y: auto;
+  border-top: 1px solid #edf1f3;
+}
+
+.sp-notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 15px 17px;
+  border-bottom: 1px solid #edf1f3;
+}
+
+.sp-notification-item.sp-unread {
+  background: #f2fbfa;
+}
+
+.sp-notification-dot {
+  width: 7px;
+  height: 7px;
+  margin-top: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.sp-unread .sp-notification-dot {
+  background: #1ab4a6;
+}
+
+.sp-notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.sp-notification-content strong {
+  color: #20394b;
+  font-size: 12px;
+}
+
+.sp-notification-content p {
+  margin: 5px 0;
+  color: #6e7e89;
+  font-size: 11px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.sp-notification-date {
+  color: #9aa7af;
+  font-size: 9px;
+}
+
+.sp-notification-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.sp-notification-controls button {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 7px;
+  background: #f0f4f5;
+  color: #71818b;
+  cursor: pointer;
+}
+
+.sp-notification-controls button:hover {
+  background: #e0f5f2;
+  color: #138d84;
+}
+
+.sp-empty-notifications {
+  min-height: 165px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 25px;
+  color: #9aaab2;
+  text-align: center;
+}
+
+.sp-empty-notifications strong {
+  color: #294354;
+  font-size: 13px;
+}
+
+.sp-empty-notifications span {
+  font-size: 11px;
+}
+
+.sp-mobile-toggle,
+.sp-mobile-auth {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .sp-navbar-inner {
+    width: 94%;
+    gap: 15px;
+  }
+
+  .sp-nav-link {
+    padding: 11px 10px;
+    font-size: 12px;
+  }
+
+  .sp-navbar-actions {
+    gap: 11px;
+  }
+}
+
+@media (max-width: 760px) {
+  .sp-navbar-inner {
+    min-height: 73px;
+  }
+
+  .sp-brand-name {
+    font-size: 21px;
+  }
+
+  .sp-nav-links {
+    position: absolute;
+    top: 73px;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    padding: 17px 5% 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: #091c2a;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .sp-nav-links.sp-nav-open {
+    display: flex;
+  }
+
+  .sp-nav-link {
+    padding: 14px;
+  }
+
+  .sp-mobile-auth {
+    display: flex;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sp-mobile-auth a {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.07);
+    color: #e7f0f4;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .sp-mobile-auth a:last-child {
+    background: #48d5c5;
+    color: #082331;
+  }
+
+  .sp-login-link,
+  .sp-register-button {
+    display: none;
+  }
+
+  .sp-mobile-toggle {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+  }
+
+  .sp-notification-dropdown {
+    position: fixed;
+    top: 80px;
+    right: 3%;
+    width: min(365px, 94vw);
+  }
+}
+
+@media (max-width: 400px) {
+  .sp-brand-mark {
+    width: 37px;
+    height: 37px;
+  }
+
+  .sp-brand-name {
+    font-size: 19px;
+  }
+
+  .sp-brand-name small {
+    font-size: 7px;
+  }
+
+  .sp-navbar-actions {
+    gap: 8px;
+  }
+}
