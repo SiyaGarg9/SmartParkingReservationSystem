@@ -64,7 +64,7 @@ function Register() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/users/register",
+        "https://smartparkingreservationsystem.onrender.com/users/register",
         {
           method: "POST",
           headers: {

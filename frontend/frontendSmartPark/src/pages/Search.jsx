@@ -68,7 +68,7 @@ function Search() {
         );
 
         const areasResponse = await fetch(
-          "http://127.0.0.1:8000/parking/areas"
+          "https://smartparkingreservationsystem.onrender.com/parking/areas"
         );
 
         if (!areasResponse.ok) {
@@ -86,7 +86,7 @@ function Search() {
             const areaId = area.id ?? area.area_id;
 
             const slotsResponse = await fetch(
-              `http://127.0.0.1:8000/parking/areas/${areaId}/slots`
+              `https://smartparkingreservationsystem.onrender.com/parking/areas/${areaId}/slots`
             );
 
             if (!slotsResponse.ok) {
@@ -108,7 +108,7 @@ function Search() {
             });
 
             const availabilityResponse = await fetch(
-              `http://127.0.0.1:8000/parking/search?${searchParams.toString()}`
+              `https://smartparkingreservationsystem.onrender.com/parking/search?${searchParams.toString()}`
             );
 
             if (!availabilityResponse.ok) {

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./Navigation.css";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://smartparkingreservationsystem.onrender.com";
 
 const SLOT_POSITIONS = [
   { x: 65, y: 25 },

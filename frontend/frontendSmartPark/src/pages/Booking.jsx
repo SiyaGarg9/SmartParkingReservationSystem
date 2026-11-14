@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import "./Booking.css";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://smartparkingreservationsystem.onrender.com";
 const RATE_PER_HOUR = 100;
 const EV_SURCHARGE_PER_HOUR = 18;
 

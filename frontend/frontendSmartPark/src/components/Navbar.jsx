@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import "./Navbar.css";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://smartparkingreservationsystem.onrender.com";
 
 function Navbar() {
   const navigate = useNavigate();

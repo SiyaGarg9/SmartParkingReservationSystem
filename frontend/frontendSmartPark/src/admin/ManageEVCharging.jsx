@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import "./ManageEVCharging.css";
 
-const API = "http://127.0.0.1:8000";
+const API = "https://smartparkingreservationsystem.onrender.com";
 
 const EV_POWER = 22;
 const EV_TYPE = "AC Type 2";

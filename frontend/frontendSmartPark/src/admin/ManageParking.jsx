@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import "./ManageParking.css";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://smartparkingreservationsystem.onrender.com";
 
 function ManageParking() {
   const [parkingAreas, setParkingAreas] = useState([]);
