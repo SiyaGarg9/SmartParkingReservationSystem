@@ -429,6 +429,18 @@ Contributions from team members are managed through individual GitHub accounts, 
 | Domain | Smart Cities, Intelligent Transportation Systems and Parking Management |
 | Repository | [SmartParkingReservationSystem](https://github.com/SiyaGarg9/SmartParkingReservationSystem) |
 
+## 👥 Contributors
+
+This project was developed collaboratively by:
+
+| Contributor | GitHub Profile | Role |
+|---|---|---|
+| Siya Garg | [@SiyaGarg9](https://github.com/SiyaGarg9) | Backend |
+| Vaishnavi Singla | [@vaishnavisingla222](https://github.com/vaishnavisingla222) | Frontend |
+| Nehmat Kaushal | [@nkaushalbe24-crypto](https://github.com/nkaushalbe24-crypto) | Database |
+
+We collaborated on designing, developing, and integrating the different components of this project.
+
 ---
 
 <p align="center">
