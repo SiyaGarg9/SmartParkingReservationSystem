@@ -112,7 +112,7 @@ The project aims to reduce the time spent searching for parking, improve parking
 | ORM | SQLAlchemy |
 | Authentication | JWT-based authentication |
 | API Documentation | Swagger UI |
-| QR Code | QR code generation and scanning |
+| QR Code | Python qrcode, qrcode.react, html5-qrcode |
 | Frontend Routing | React Router |
 | Version Control | Git and GitHub |
 
