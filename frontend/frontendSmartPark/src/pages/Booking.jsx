@@ -290,6 +290,7 @@ function Booking() {
                 <h2>Booking details</h2>
                 <p>Choose when and where you want to park.</p>
               </div>
+
               <div className="booking-heading-icon">
                 <ParkingSquare size={25} />
               </div>
@@ -371,6 +372,7 @@ function Booking() {
               <div className="booking-section-title slot-section-title">
                 <ParkingSquare size={19} />
                 <h3>Choose your parking slot</h3>
+
                 {slots.length > 0 && !loadingSlots && (
                   <span className="available-count">
                     {slots.length} available
@@ -452,12 +454,14 @@ function Booking() {
                     onClick={() => setVehicle(item.name)}
                   >
                     <CarFront size={20} />
+
                     <span>
                       <strong>
                         {item.name === "EV" ? "Electric" : item.name}
                       </strong>
                       <small>{item.description}</small>
                     </span>
+
                     {vehicle === item.name && (
                       <CheckCircle2 size={17} />
                     )}
@@ -500,19 +504,24 @@ function Booking() {
               </div>
             </form>
           </main>
+        </div>
 
-          <aside className="booking-summary">
-            <div className="summary-top">
-              <span>YOUR RESERVATION</span>
-              <div className="summary-icon">
-                <CreditCard size={23} />
-              </div>
-              <h2>Booking summary</h2>
-              <p>Review your details before continuing.</p>
+        {/* BOOKING SUMMARY BELOW BOOKING DETAILS */}
+        <aside className="booking-summary">
+          <div className="summary-top">
+            <span>YOUR RESERVATION</span>
+
+            <div className="summary-icon">
+              <CreditCard size={23} />
             </div>
 
-            <div className="summary-divider"></div>
+            <h2>Booking summary</h2>
+            <p>Review your details before continuing.</p>
+          </div>
 
+          <div className="summary-divider"></div>
+
+          <div className="summary-details-grid">
             <div className="summary-detail">
               <span>Parking location</span>
               <strong>{parking.parkingName}</strong>
@@ -540,58 +549,63 @@ function Booking() {
 
             <div className="summary-detail">
               <span>Vehicle</span>
-              <strong>{vehicle === "EV" ? "Electric vehicle" : vehicle}</strong>
+              <strong>
+                {vehicle === "EV" ? "Electric vehicle" : vehicle}
+              </strong>
             </div>
+          </div>
 
-            <div className="summary-divider"></div>
+          <div className="summary-divider"></div>
 
+          <div className="summary-price-row">
+            <span>Parking fee</span>
+            <strong>₹{parkingAmount}</strong>
+          </div>
+
+          {isEVSlot && (
             <div className="summary-price-row">
-              <span>Parking fee</span>
-              <strong>₹{parkingAmount}</strong>
+              <span>EV charging surcharge</span>
+              <strong>₹{evSurcharge}</strong>
+            </div>
+          )}
+
+          <div className="summary-total">
+            <span>Estimated total</span>
+            <strong>₹{totalAmount}</strong>
+          </div>
+
+          <p className="summary-price-note">
+            {isEVSlot
+              ? `Includes ₹${EV_SURCHARGE_PER_HOUR} per hour EV charging surcharge.`
+              : "Final amount is based on your selected parking duration."}
+          </p>
+
+          <div className="summary-benefits">
+            <div>
+              <CheckCircle2 size={17} />
+              Real-time slot availability
             </div>
 
-            {isEVSlot && (
-              <div className="summary-price-row">
-                <span>EV charging surcharge</span>
-                <strong>₹{evSurcharge}</strong>
-              </div>
-            )}
-
-            <div className="summary-total">
-              <span>Estimated total</span>
-              <strong>₹{totalAmount}</strong>
+            <div>
+              <CheckCircle2 size={17} />
+              Digital booking confirmation
             </div>
 
-            <p className="summary-price-note">
-              {isEVSlot
-                ? `Includes ₹${EV_SURCHARGE_PER_HOUR} per hour EV charging surcharge.`
-                : "Final amount is based on your selected parking duration."}
-            </p>
-
-            <div className="summary-benefits">
-              <div>
-                <CheckCircle2 size={17} />
-                Real-time slot availability
-              </div>
-              <div>
-                <CheckCircle2 size={17} />
-                Digital booking confirmation
-              </div>
-              <div>
-                <CheckCircle2 size={17} />
-                Easy booking management
-              </div>
+            <div>
+              <CheckCircle2 size={17} />
+              Easy booking management
             </div>
+          </div>
 
-            <div className="summary-help">
-              <ShieldCheck size={21} />
-              <div>
-                <strong>Your booking is protected</strong>
-                <span>Complete your reservation securely.</span>
-              </div>
+          <div className="summary-help">
+            <ShieldCheck size={21} />
+
+            <div>
+              <strong>Your booking is protected</strong>
+              <span>Complete your reservation securely.</span>
             </div>
-          </aside>
-        </div>
+          </div>
+        </aside>
 
         <footer className="booking-footer">
           <span>SMARTPARK</span>
