@@ -73,6 +73,7 @@ function Register() {
           body: JSON.stringify({
             name: formData.name.trim(),
             email: formData.email.trim(),
+            phone: formData.phone.trim(),
             password: formData.password,
           }),
         }
