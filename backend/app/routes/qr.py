@@ -7,6 +7,39 @@ from app.database import get_db
 
 import uuid
 from datetime import datetime
+from zoneinfo import ZoneInfo
+
+
+# =========================================================
+# TIMEZONE CONFIGURATION
+# =========================================================
+
+IST = ZoneInfo("Asia/Kolkata")
+
+
+def to_ist_naive(value):
+    """
+    Convert a datetime into timezone-naive IST.
+
+    Naive timestamps from the existing database are assumed
+    to represent Indian Standard Time.
+    """
+
+    if value is None:
+        return None
+
+    if value.tzinfo is not None:
+        return value.astimezone(IST).replace(tzinfo=None)
+
+    return value
+
+
+def get_ist_now():
+    """
+    Get current Indian Standard Time as a naive datetime.
+    """
+
+    return datetime.now(IST).replace(tzinfo=None)
 
 
 router = APIRouter(
@@ -36,12 +69,15 @@ def generate_qr(
         ).mappings().first()
 
         if not booking:
-            raise HTTPException(404, "Booking not found")
+            raise HTTPException(
+                status_code=404,
+                detail="Booking not found"
+            )
 
         if booking["status"] != "BOOKED":
             raise HTTPException(
-                400,
-                "QR codes can only be generated for a BOOKED reservation"
+                status_code=400,
+                detail="QR codes can only be generated for a BOOKED reservation"
             )
 
         existing = db.execute(
@@ -162,50 +198,65 @@ def verify_qr_entry(
         ).mappings().first()
 
         if not qr:
-            raise HTTPException(404, "Invalid QR code")
+            raise HTTPException(
+                status_code=404,
+                detail="Invalid QR code"
+            )
 
         if qr["status"] != "ACTIVE":
             raise HTTPException(
-                400,
-                "Entry QR is no longer active"
+                status_code=400,
+                detail="Entry QR is no longer active"
             )
 
         if qr["booking_status"] != "BOOKED":
             raise HTTPException(
-                400,
-                "Booking is not valid for entry"
+                status_code=400,
+                detail="Booking is not valid for entry"
             )
 
         if not qr["exit_qr_token"]:
             raise HTTPException(
-                400,
-                "Exit QR is missing. Please regenerate the booking QR codes."
+                status_code=400,
+                detail="Exit QR is missing. Please regenerate the booking QR codes."
             )
 
-        # Get current server time.
-        entry_time = datetime.now()
+        # -------------------------------------------------
+        # TIME VALIDATION USING INDIAN STANDARD TIME
+        # -------------------------------------------------
 
-        # Check booking time.
-        if entry_time < qr["start_time"]:
+        # Get current time in IST
+        entry_time = get_ist_now()
+
+        # Convert database booking timestamps to IST
+        booking_start = to_ist_naive(qr["start_time"])
+        booking_end = to_ist_naive(qr["end_time"])
+
+        # Prevent entry before booking start time
+        if entry_time < booking_start:
             raise HTTPException(
-                400,
+                status_code=400,
                 detail=(
                     "Entry is not allowed yet. "
-                    f"Your booking starts at {qr['start_time']}."
+                    f"Your booking starts at "
+                    f"{booking_start.strftime('%Y-%m-%d %H:%M:%S')} IST."
                 )
             )
 
-        # Entry is not allowed at or after the booking end time.
-        if entry_time >= qr["end_time"]:
+        # Prevent entry at or after booking end time
+        if entry_time >= booking_end:
             raise HTTPException(
-                400,
+                status_code=400,
                 detail=(
                     "Your booking time has expired. "
                     "Entry is not allowed after the booking end time."
                 )
             )
 
-        # Occupy the parking slot only after time validation.
+        # -------------------------------------------------
+        # OCCUPY PARKING SLOT
+        # -------------------------------------------------
+
         slot_result = db.execute(
             text("""
                 UPDATE slots
@@ -219,11 +270,14 @@ def verify_qr_entry(
 
         if not slot_result.fetchone():
             raise HTTPException(
-                409,
-                "This parking slot is not currently available."
+                status_code=409,
+                detail="This parking slot is not currently available."
             )
 
-        # Mark entry QR as used.
+        # -------------------------------------------------
+        # MARK ENTRY QR AS USED
+        # -------------------------------------------------
+
         db.execute(
             text("""
                 UPDATE parking_qr
@@ -237,7 +291,10 @@ def verify_qr_entry(
             }
         )
 
-        # Update booking status.
+        # -------------------------------------------------
+        # UPDATE BOOKING STATUS
+        # -------------------------------------------------
+
         db.execute(
             text("""
                 UPDATE bookings
@@ -247,7 +304,10 @@ def verify_qr_entry(
             {"booking_id": qr["booking_id"]}
         )
 
-        # Update matching EV charger, if applicable.
+        # -------------------------------------------------
+        # UPDATE EV CHARGER, IF APPLICABLE
+        # -------------------------------------------------
+
         charger_result = db.execute(
             text("""
                 UPDATE ev_chargers
@@ -314,23 +374,30 @@ def verify_qr_exit(
         ).mappings().first()
 
         if not qr:
-            raise HTTPException(404, "Invalid exit QR code")
+            raise HTTPException(
+                status_code=404,
+                detail="Invalid exit QR code"
+            )
 
         if qr["exit_time"] is not None:
             raise HTTPException(
-                400,
-                "Exit QR has already been used"
+                status_code=400,
+                detail="Exit QR has already been used"
             )
 
         if qr["booking_status"] != "IN_PROGRESS":
             raise HTTPException(
-                400,
-                "Booking is not currently in progress. Entry QR must be scanned first."
+                status_code=400,
+                detail="Booking is not currently in progress. Entry QR must be scanned first."
             )
 
-        exit_time = datetime.now()
+        # Record exit using Indian Standard Time
+        exit_time = get_ist_now()
 
-        # Record vehicle exit.
+        # -------------------------------------------------
+        # RECORD VEHICLE EXIT
+        # -------------------------------------------------
+
         db.execute(
             text("""
                 UPDATE parking_qr
@@ -343,7 +410,10 @@ def verify_qr_exit(
             }
         )
 
-        # Complete booking.
+        # -------------------------------------------------
+        # COMPLETE BOOKING
+        # -------------------------------------------------
+
         db.execute(
             text("""
                 UPDATE bookings
@@ -353,7 +423,10 @@ def verify_qr_exit(
             {"booking_id": qr["booking_id"]}
         )
 
-        # Make parking slot available again.
+        # -------------------------------------------------
+        # MAKE PARKING SLOT AVAILABLE AGAIN
+        # -------------------------------------------------
+
         db.execute(
             text("""
                 UPDATE slots
@@ -363,7 +436,10 @@ def verify_qr_exit(
             {"slot_id": qr["slot_id"]}
         )
 
-        # Make EV charger available again, if applicable.
+        # -------------------------------------------------
+        # MAKE EV CHARGER AVAILABLE AGAIN
+        # -------------------------------------------------
+
         charger_result = db.execute(
             text("""
                 UPDATE ev_chargers
@@ -426,8 +502,8 @@ def get_qr_details(
 
     if not qr:
         raise HTTPException(
-            404,
-            "QR code not found for this booking"
+            status_code=404,
+            detail="QR code not found for this booking"
         )
 
     return dict(qr)
